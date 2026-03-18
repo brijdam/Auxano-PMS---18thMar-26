@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auxano PMS — Investor Intelligence Report | March 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --navy: #1a2356;
+    --blue: #2d4aad;
+    --teal: #1a8fa0;
+    --orange: #e05a1b;
+    --gold: #c9a84c;
+    --light-bg: #f5f7ff;
+    --card-bg: #ffffff;
+    --text-main: #1c1f2e;
+    --text-muted: #5a6278;
+    --border: #e2e7f5;
+    --green: #1aa065;
+    --red: #d9364f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #eef0f8;
+    color: var(--text-main);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--teal) 100%);
+    color: white;
+    padding: 72px 64px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    top: -120px; right: -100px;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+    bottom: -80px; left: 60px;
+  }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.25);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  .cover h1 span { color: var(--gold); }
+  .cover .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: flex; gap: 40px; flex-wrap: wrap;
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px; margin-top: 52px;
+  }
+  .section-header:first-child { margin-top: 0; }
+  .section-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--blue), var(--teal));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 22px; font-weight: 700; color: var(--navy);
+  }
+  .section-header p {
+    font-size: 13px; color: var(--text-muted); margin-top: 2px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(26,35,86,0.07);
+    border: 1px solid var(--border);
+  }
+  .card h3 {
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--light-bg);
+  }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+  /* ── KPI TILES ── */
+  .kpi {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 2px 10px rgba(26,35,86,0.06);
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--teal));
+    border-radius: 14px 14px 0 0;
+  }
+  .kpi.orange::before { background: linear-gradient(90deg, var(--orange), var(--gold)); }
+  .kpi.green::before  { background: linear-gradient(90deg, var(--green), #2dd4bf); }
+  .kpi label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--text-muted); display: block;
+    margin-bottom: 8px;
+  }
+  .kpi .val {
+    font-size: 30px; font-weight: 800; color: var(--navy); line-height: 1;
+  }
+  .kpi .val.pos { color: var(--green); }
+  .kpi .val.neg { color: var(--red); }
+  .kpi .sub {
+    font-size: 12px; color: var(--text-muted); margin-top: 6px;
+  }
+  .kpi .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px; margin-top: 6px;
+  }
+  .badge.up { background: #d1fae5; color: #065f46; }
+  .badge.down { background: #fee2e2; color: #991b1b; }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--navy); color: white;
+    padding: 11px 14px; text-align: left;
+    font-weight: 600; font-size: 12px; letter-spacing: 0.5px;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child  { border-radius: 0 8px 0 0; }
+  tbody tr:nth-child(even) { background: #f8f9ff; }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  .alpha-cell { font-weight: 700; color: var(--green); }
+  .alpha-cell.neg { color: var(--red); }
+
+  /* ── CHART WRAPPER ── */
+  .chart-wrap {
+    position: relative; width: 100%;
+    padding: 12px 0 4px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: linear-gradient(135deg, #eff3ff 0%, #e8f8ff 100%);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--text-main);
+  }
+  .highlight strong { color: var(--blue); }
+
+  .highlight.green { border-left-color: var(--green); background: linear-gradient(135deg,#f0fdf4,#e8fef5); }
+  .highlight.orange { border-left-color: var(--orange); background: linear-gradient(135deg,#fff7ed,#fff0e0); }
+  .highlight.red    { border-left-color: var(--red);    background: linear-gradient(135deg,#fff1f2,#ffe4e6); }
+
+  /* ── TAGS ── */
+  .tag {
+    display: inline-block;
+    padding: 4px 11px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+    margin: 3px;
+  }
+  .tag.blue   { background: #e0e7ff; color: var(--blue); }
+  .tag.teal   { background: #ccfbf1; color: #0f766e; }
+  .tag.orange { background: #ffedd5; color: #c2410c; }
+  .tag.gold   { background: #fef9c3; color: #854d0e; }
+
+  /* ── THESIS CARDS ── */
+  .thesis-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(26,35,86,0.05);
+  }
+  .thesis-card .num {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .thesis-card h4 {
+    font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px;
+  }
+  .thesis-card p { font-size: 13px; color: var(--text-muted); }
+
+  /* ── STOCK TABLE ── */
+  .pnl-pos { color: var(--green); font-weight: 600; }
+  .pnl-neg { color: var(--red); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 11px;
+    line-height: 1.8;
+    margin-top: 60px;
+  }
+  .footer strong { color: rgba(255,255,255,0.9); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 36px 0;
+  }
+
+  /* ── RISK METER ── */
+  .risk-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .risk-label { font-size: 12px; font-weight: 600; width: 120px; color: var(--text-main); }
+  .risk-bar-bg { flex: 1; background: #e5e7eb; border-radius: 4px; height: 8px; }
+  .risk-bar { height: 8px; border-radius: 4px; }
+  .risk-pct { font-size: 12px; font-weight: 700; width: 40px; text-align: right; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .cover h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ COVER ═══ -->
+<div class="cover">
+  <div class="cover-badge">Confidential Investor Report</div>
+  <h1>Auxano <span>PMS</span><br>Intelligence Report</h1>
+  <p class="subtitle">Performance Deep Dive · Macro Outlook · Investment Thesis<br>March 2026 Edition</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><label>Report Date</label><span>18 March 2026</span></div>
+    <div class="cover-meta-item"><label>PMS Structure</label><span>Auxano Alpha Fund (SEBI Regd.)</span></div>
+    <div class="cover-meta-item"><label>Platform</label><span>Moat Financial Services Pvt Ltd</span></div>
+    <div class="cover-meta-item"><label>AIF Track Record</label><span>Since 2016</span></div>
+    <div class="cover-meta-item"><label>Custodian</label><span>Orbis Financial Corporation</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════ EXECUTIVE SUMMARY ═══ -->
+  <div class="section-header" style="margin-top:44px;">
+    <div class="section-icon">📋</div>
+    <div>
+      <h2>Executive Summary</h2>
+      <p>Why Auxano — The Compounding Edge</p>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px;">
+    <div class="card">
+      <h3>The Auxano Story in Numbers</h3>
+      <div class="highlight green">
+        <strong>10-year AIF track record (2016–2026):</strong> Across five fund vintages, Auxano has delivered Blended XIRRs ranging from 16.44% to 33.92% — consistently generating <strong>5–20% alpha</strong> over Nifty 50 and BSE 500 benchmarks.
+      </div>
+      <div class="highlight">
+        <strong>Auxano Alpha Fund (PMS, Oct 2025):</strong> India's current small & mid-cap correction has created a rare entry window. The fund currently holds 21.6% cash — dry powder ready to deploy as market dislocations present themselves.
+      </div>
+      <div class="highlight orange">
+        <strong>India macro tailwind:</strong> Q3 FY26 GDP grew 7.8% — fastest among all major global economies. Inflation at 2.75%, repo rate at 5.25% with a neutral stance. A soft-landing is underway — ideal for equity compounding.
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="kpi green">
+        <label>Best AIF XIRR (Realised)</label>
+        <div class="val pos">59.36%</div>
+        <div class="sub">SPV 2019-21 vintage — actual exits</div>
+      </div>
+      <div class="kpi">
+        <label>Max TVPI (2016-18 SPV)</label>
+        <div class="val">5.44×</div>
+        <div class="sub">₹1 invested → ₹5.44 returned</div>
+      </div>
+      <div class="kpi orange">
+        <label>India GDP Growth (FY26E)</label>
+        <div class="val">7.6%</div>
+        <div class="sub">World's fastest major economy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ MACRO DASHBOARD ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🌐</div>
+    <div>
+      <h2>India Macro Dashboard</h2>
+      <p>Economic pulse — February/March 2026 latest readings</p>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:20px;">
+    <div class="kpi green">
+      <label>GDP Growth Rate</label>
+      <div class="val pos">7.8%</div>
+      <div class="sub">Q3 FY26 (Dec 2025)</div>
+      <span class="badge up">↑ FY26E 7.6%</span>
+    </div>
+    <div class="kpi green">
+      <label>CPI Inflation</label>
+      <div class="val pos">2.75%</div>
+      <div class="sub">Jan 2026 — 4-yr low</div>
+      <span class="badge up">Soft landing</span>
+    </div>
+    <div class="kpi">
+      <label>Repo Rate</label>
+      <div class="val">5.25%</div>
+      <div class="sub">Feb 2026 (Neutral)</div>
+      <span class="badge up">Rate cut cycle begun</span>
+    </div>
+    <div class="kpi">
+      <label>10-Yr G-Sec Yield</label>
+      <div class="val">6.69%</div>
+      <div class="sub">Feb 2026</div>
+      <span class="badge up">Easing bias</span>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:24px;">
+    <div class="card" style="grid-column:span 2;">
+      <h3>FII vs DII Monthly Flows (₹ '000 Crore) — Aug 2025 to Feb 2026</h3>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="flowChart"></canvas>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">
+        DII inflows remain robustly positive every month — providing a domestic bedrock against FII-driven volatility. This structural DII dominance is a key reason Indian mid/small caps recover quickly from FII-led corrections.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="kpi">
+        <label>Fiscal Deficit (FY27 Budget)</label>
+        <div class="val">4.3%</div>
+        <div class="sub">of GDP — improving path</div>
+      </div>
+      <div class="kpi">
+        <label>Capex Budget FY27</label>
+        <div class="val">₹12.2T</div>
+        <div class="sub">+9% YoY infra push</div>
+      </div>
+      <div class="kpi">
+        <label>Unemployment Rate</label>
+        <div class="val">5.0%</div>
+        <div class="sub">Jan 2026 — stable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ GEOPOLITICS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🗺️</div>
+    <div>
+      <h2>Geopolitical Landscape & Credit Environment</h2>
+      <p>How global tensions shape India's investment thesis</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="card">
+      <h3>Geopolitical Tailwinds for India</h3>
+      <div class="highlight green">
+        <strong>China+1 Manufacturing Surge:</strong> US-China trade friction accelerating India's PLI-driven manufacturing pivot. Electronics, chemicals, auto components are prime beneficiaries. India's export base is diversifying rapidly.
+      </div>
+      <div class="highlight">
+        <strong>India-EU FTA (Feb 2026):</strong> Mutual MFN status for 5 years — tariffs cut on 93-96% of goods. Autos and chemicals gain the most. Trade target: $200B by 2030 vs ~$125B today. <em>Direct tailwind for Auxano's auto ancillary and chemical holdings.</em>
+      </div>
+      <div class="highlight orange">
+        <strong>Middle East & Russia-Ukraine Tensions:</strong> Gold ETF allocation (5.25%) in Auxano Alpha Fund acts as a geopolitical hedge. Gold up 8% CY26 YTD.
+      </div>
+      <div class="highlight red">
+        <strong>FII Outflows Headwind:</strong> ₹41,435 Cr FII outflow in Jan 2026 due to US dollar strength and tariff fears. However, domestic DII absorption (₹69,220 Cr) more than compensated — demonstrating India's market depth.
+      </div>
+    </div>
+    <div class="card">
+      <h3>India Credit Environment</h3>
+      <div style="margin-bottom:16px;">
+        <div class="risk-row">
+          <span class="risk-label">Credit Growth</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:72%;background:linear-gradient(90deg,#1aa065,#2dd4bf);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">~14%</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">GNPA Ratio</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:30%;background:linear-gradient(90deg,#1aa065,#2dd4bf);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">~2.6%</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">Debt-GDP</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:55%;background:linear-gradient(90deg,#f59e0b,#e05a1b);"></div></div>
+          <span class="risk-pct" style="color:var(--orange);">55.6%</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">CAD/GDP</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:15%;background:linear-gradient(90deg,#1aa065,#2dd4bf);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">~1%</span>
+        </div>
+      </div>
+      <div class="highlight green">
+        <strong>Banking system — best shape in a decade:</strong> GNPA at ~2.6% (lowest since 2010), PCR above 75%, credit growth healthy at 14%. RBI's rate cut bias supports equity valuations.
+      </div>
+      <div class="highlight">
+        <strong>Corporate balance sheets cleaned up:</strong> Net D/E for Nifty500 companies is at historical lows. Auxano's portfolio screens for D/E &lt;0.5x — aligning perfectly with India's deleveraged capex upcycle.
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Note: GNPA and CAD figures are indicative based on latest published RBI/MOF data.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ AIF PERFORMANCE ═══ -->
+  <div class="section-header">
+    <div class="section-icon">📈</div>
+    <div>
+      <h2>Auxano AIF Track Record — 2016 to 2025</h2>
+      <p>Five vintage funds · All figures as of March 2025 valuation</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>Fund Performance Summary — TVPI, DPI, RVPI & Blended XIRR</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Fund</th>
+            <th>Inception</th>
+            <th>Contribution (₹ Cr)</th>
+            <th>DPI</th>
+            <th>RVPI</th>
+            <th>TVPI</th>
+            <th>Blended XIRR</th>
+            <th>Realised XIRR</th>
+            <th>Alpha vs Nifty 50</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SPV 2016–18</strong></td>
+            <td>Oct 2016</td>
+            <td>₹13.65</td>
+            <td>1.47×</td>
+            <td>3.97×</td>
+            <td><strong>5.44×</strong></td>
+            <td>18.95%</td>
+            <td>18.15%</td>
+            <td class="alpha-cell">+6.65%</td>
+          </tr>
+          <tr>
+            <td><strong>SPV 2019–21</strong></td>
+            <td>Jan 2019</td>
+            <td>₹14.86</td>
+            <td>1.02×</td>
+            <td>4.24×</td>
+            <td><strong>5.26×</strong></td>
+            <td>32.24%</td>
+            <td style="color:var(--green);font-weight:700;">59.36%</td>
+            <td class="alpha-cell">+19.60%</td>
+          </tr>
+          <tr>
+            <td><strong>AET-I (AIF)</strong></td>
+            <td>Feb 2020</td>
+            <td>₹25.00</td>
+            <td>0.22×</td>
+            <td>4.16×</td>
+            <td><strong>4.38×</strong></td>
+            <td>33.92%</td>
+            <td>41.70%</td>
+            <td class="alpha-cell">+18.32%</td>
+          </tr>
+          <tr>
+            <td><strong>AET-II (AIF)</strong></td>
+            <td>Feb 2022</td>
+            <td>₹38.30</td>
+            <td>0.12×</td>
+            <td>1.44×</td>
+            <td><strong>1.56×</strong></td>
+            <td>16.44%</td>
+            <td>19.68%</td>
+            <td class="alpha-cell">+5.66%</td>
+          </tr>
+          <tr>
+            <td><strong>ADF (AIF)</strong></td>
+            <td>Oct 2022</td>
+            <td>₹26.04</td>
+            <td>—</td>
+            <td>1.36×</td>
+            <td><strong>1.36×</strong></td>
+            <td>20.17%</td>
+            <td>0.00%*</td>
+            <td class="alpha-cell">+7.22%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">*ADF has made no exits yet. Realised IRR is based on actual cash exits. Unrealised IRR based on March 2025 valuation exercise. Returns calculated from respective inception dates to Dec 2025.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <h3>TVPI Comparison — Value Created Per Rupee Invested</h3>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="tvpiChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Blended XIRR vs BSE 500 TRI (Inception to Dec 2025)</h3>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="alphaBseChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>Alpha Generated vs Nifty 50 — Across All Vintages</h3>
+    <div class="chart-wrap" style="height:220px;">
+      <canvas id="alphaChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ PMS PERFORMANCE ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🏆</div>
+    <div>
+      <h2>Auxano Alpha Fund — PMS Performance</h2>
+      <p>Inception: 13 October 2025 · Benchmark: BSE 500 TRI</p>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:20px;">
+    <div class="kpi green">
+      <label>MTD Alpha (Mar '26)</label>
+      <div class="val pos">+2.47%</div>
+      <div class="sub">Fund -5.25% vs BSE500 -7.72%</div>
+      <span class="badge up">Outperforming</span>
+    </div>
+    <div class="kpi green">
+      <label>1-Month Alpha</label>
+      <div class="val pos">+1.91%</div>
+      <div class="sub">Fund -6.31% vs BSE500 -8.22%</div>
+      <span class="badge up">Defensive quality</span>
+    </div>
+    <div class="kpi">
+      <label>3-Month Return</label>
+      <div class="val neg">-10.04%</div>
+      <div class="sub">BSE500 TRI: -9.87%</div>
+      <span class="badge down">Market correction</span>
+    </div>
+    <div class="kpi orange">
+      <label>Cash Buffer</label>
+      <div class="val">21.6%</div>
+      <div class="sub">Tactical dry powder</div>
+      <span class="badge up">Opportunity ready</span>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <h3>Return Comparison — Fund vs BSE 500 TRI</h3>
+      <div class="chart-wrap" style="height:230px;">
+        <canvas id="pmsPerf"></canvas>
+      </div>
+      <div class="highlight" style="margin-top:16px;margin-bottom:0;">
+        <strong>Context matters:</strong> The fund launched in Oct 2025 — directly into India's mid/small cap correction driven by FII outflows (₹41,435 Cr in Jan 2026 alone). The 21.6% cash position shields NAV and creates deployment opportunity.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Portfolio Composition — Asset & Market Cap Split</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <p style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Asset Allocation</p>
+          <div class="chart-wrap" style="height:170px;">
+            <canvas id="assetPie"></canvas>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Market Cap Mix</p>
+          <div class="chart-wrap" style="height:170px;">
+            <canvas id="mcapPie"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sector allocation -->
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="card">
+      <h3>Top Sector Allocation (Alpha Fund — March 2026)</h3>
+      <div class="chart-wrap" style="height:230px;">
+        <canvas id="sectorBar"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>AOF NDPMS — Since Inception (16 Jun 2025)</h3>
+      <div class="chart-wrap" style="height:230px;">
+        <canvas id="aofChart"></canvas>
+      </div>
+      <div class="highlight green" style="margin-top:16px;margin-bottom:0;">
+        <strong>AOF (Opportunity Fund):</strong> +4.88% since inception vs BSE500 +2.93% — outperforming by <strong>+1.95%</strong>. Portfolio value: ₹7.47 Cr with realized gains of ₹23.7 Lakh already booked.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ PORTFOLIO HOLDINGS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🔬</div>
+    <div>
+      <h2>Portfolio Deep Dive — Alpha Fund Holdings (Nov 2025)</h2>
+      <p>18 stocks · Total portfolio cost ₹7.46 Cr · Current value ₹7.41 Cr</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>Alpha Fund — Stock-Level Positions (as of 27 Nov 2025)</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Stock</th>
+            <th>Qty</th>
+            <th>Avg Cost (₹)</th>
+            <th>Mkt Price (₹)</th>
+            <th>Value (₹)</th>
+            <th>Unrealised P&L</th>
+            <th>% Weight</th>
+            <th>Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sansera Engineering</strong></td>
+            <td>1,986</td>
+            <td>1,427.6</td>
+            <td>1,744.6</td>
+            <td>34,64,776</td>
+            <td class="pnl-pos">+₹6.30L (+22.2%)</td>
+            <td>4.68%</td>
+            <td><span class="tag teal">Top Winner</span></td>
+          </tr>
+          <tr>
+            <td><strong>Interarch Building</strong></td>
+            <td>1,397</td>
+            <td>2,331.0</td>
+            <td>2,428.0</td>
+            <td>33,91,916</td>
+            <td class="pnl-pos">+₹1.35L (+4.2%)</td>
+            <td>4.58%</td>
+            <td><span class="tag blue">Infra Play</span></td>
+          </tr>
+          <tr>
+            <td><strong>VA Tech Wabag</strong></td>
+            <td>1,973</td>
+            <td>1,338.5</td>
+            <td>1,396.1</td>
+            <td>27,54,505</td>
+            <td class="pnl-pos">+₹1.14L (+4.3%)</td>
+            <td>3.72%</td>
+            <td><span class="tag teal">Water Infra</span></td>
+          </tr>
+          <tr>
+            <td><strong>ABB India</strong></td>
+            <td>584</td>
+            <td>5,137.0</td>
+            <td>5,240.5</td>
+            <td>30,60,452</td>
+            <td class="pnl-pos">+₹0.60L (+2.0%)</td>
+            <td>4.13%</td>
+            <td><span class="tag blue">Automation</span></td>
+          </tr>
+          <tr>
+            <td><strong>Zaggle Prepaid</strong></td>
+            <td>8,162</td>
+            <td>371.5</td>
+            <td>383.3</td>
+            <td>31,28,495</td>
+            <td class="pnl-pos">+₹0.96L (+3.2%)</td>
+            <td>4.22%</td>
+            <td><span class="tag orange">Fintech</span></td>
+          </tr>
+          <tr>
+            <td><strong>Shree Pushkar Chem</strong></td>
+            <td>5,091</td>
+            <td>371.4</td>
+            <td>403.4</td>
+            <td>20,53,455</td>
+            <td class="pnl-pos">+₹1.63L (+8.6%)</td>
+            <td>2.77%</td>
+            <td><span class="tag teal">Specialty Chem</span></td>
+          </tr>
+          <tr>
+            <td><strong>GMDC</strong></td>
+            <td>5,806</td>
+            <td>571.7</td>
+            <td>553.2</td>
+            <td>32,11,589</td>
+            <td class="pnl-neg">-₹1.08L (-3.3%)</td>
+            <td>4.34%</td>
+            <td><span class="tag gold">Minerals</span></td>
+          </tr>
+          <tr>
+            <td><strong>Marine Electricals</strong></td>
+            <td>15,823</td>
+            <td>238.2</td>
+            <td>229.7</td>
+            <td>36,34,543</td>
+            <td class="pnl-neg">-₹1.35L (-3.6%)</td>
+            <td>4.91%</td>
+            <td><span class="tag blue">Defence/Marine</span></td>
+          </tr>
+          <tr>
+            <td><strong>Dixon Technologies</strong></td>
+            <td>144</td>
+            <td>15,051.6</td>
+            <td>14,643.0</td>
+            <td>21,08,592</td>
+            <td class="pnl-neg">-₹0.59L (-2.7%)</td>
+            <td>2.85%</td>
+            <td><span class="tag orange">Electronics PLI</span></td>
+          </tr>
+          <tr>
+            <td><strong>Action Const. Equip.</strong></td>
+            <td>3,233</td>
+            <td>1,088.5</td>
+            <td>982.8</td>
+            <td>31,77,392</td>
+            <td class="pnl-neg">-₹3.42L (-9.7%)</td>
+            <td>4.29%</td>
+            <td><span class="tag blue">Infra/Cranes</span></td>
+          </tr>
+          <tr>
+            <td><strong>SSWL</strong></td>
+            <td>16,464</td>
+            <td>214.4</td>
+            <td>192.7</td>
+            <td>31,73,107</td>
+            <td class="pnl-neg">-₹3.57L (-10.1%)</td>
+            <td>4.28%</td>
+            <td><span class="tag orange">Auto Ancillary</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">Portfolio cost ₹7.46 Cr | Market value ₹7.41 Cr | Unrealised P&L: -₹5.61 Lakh (-1.14%) | Cash & bank: ₹1.91 Cr (25.85%)</p>
+  </div>
+
+  <!-- ═══════════════════════ CONVICTION PICKS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">💡</div>
+    <div>
+      <h2>High-Conviction Stock Thesis</h2>
+      <p>Deep-dive on key portfolio anchors</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="thesis-card">
+      <div class="num">Position 01 · Auto &amp; Aerospace · 4.68% weight</div>
+      <h4>Sansera Engineering Ltd</h4>
+      <p>Precision forging powerhouse with ₹2,024 Cr order book (9-month visibility), 50% exports, 18% EBITDA margins and 27%+ RoCE. Aerospace mix growing 30% YoY — diversifying beyond ICE cycles. 20% earnings CAGR likely as Boeing/premium auto upcycles accelerate.</p>
+      <div style="margin-top:12px;">
+        <span class="tag teal">RoCE 27%+</span>
+        <span class="tag blue">18% EBITDA</span>
+        <span class="tag orange">50% Exports</span>
+        <span class="tag gold">Aero +30% YoY</span>
+      </div>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Position 02 · Defence &amp; Marine · 4.91% weight</div>
+      <h4>Marine Electricals (India) Ltd</h4>
+      <p>India's largest LV/MV switchgear maker with 50% market share and exclusive Tier-1 supplier status to 100+ Indian Navy vessels. Revenue ₹615 Cr (+20% YoY 9M FY26), D/E just 0.12x. Atmanirbhar defence capex doubling to ₹6 lakh Cr = structural 25%+ revenue CAGR.</p>
+      <div style="margin-top:12px;">
+        <span class="tag teal">50% Market Share</span>
+        <span class="tag blue">D/E 0.12x</span>
+        <span class="tag orange">Defence Moat</span>
+      </div>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Position 03 · Automation &amp; Energy · 4.13% weight</div>
+      <h4>ABB India Ltd</h4>
+      <p>30% domestic automation share, 85% localisation, ₹9,895 Cr backlog (+20% YoY). Q3 CY25: Revenue ₹3,311 Cr (+14% QoQ), PAT ₹409 Cr (+16%). At the heart of India's ₹12.2T capex surge — data centres, renewables, metros. Target 20% revenue CAGR + 25%+ RoE expansion.</p>
+      <div style="margin-top:12px;">
+        <span class="tag teal">₹9,895 Cr Backlog</span>
+        <span class="tag blue">30% Automation Share</span>
+        <span class="tag gold">Swiss Tech Transfer</span>
+      </div>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Position 04 · Minerals &amp; Energy Transition · 4.34% weight</div>
+      <h4>GMDC (Gujarat Mineral Dev. Corp.)</h4>
+      <p>8% national lignite share, 50-year reserves, ₹2,150 Cr cash pile. 9M FY26: volumes 6 MT (+20% YoY), PAT ₹520 Cr, 34% EBITDA margin. ₹13,000 Cr CapEx plan through 2030 into rare earths + renewables. 12-15% dividend yield potential — rare defensive with growth.</p>
+      <div style="margin-top:12px;">
+        <span class="tag teal">34% EBITDA</span>
+        <span class="tag blue">1.2x Dividend Payout</span>
+        <span class="tag orange">₹13,000 Cr CapEx</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SECTOR OUTLOOK ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🏭</div>
+    <div>
+      <h2>Sector-by-Sector Outlook</h2>
+      <p>Why Auxano's concentrated sector bets make structural sense</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>Sector Growth Projections vs Portfolio Weights</h3>
+    <div class="chart-wrap" style="height:250px;">
+      <canvas id="sectorOutlook"></canvas>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:24px;">
+    <div class="thesis-card">
+      <div class="num">Sector 01 · 24% Portfolio Weight</div>
+      <h4>Machinery, Equipment &amp; Components</h4>
+      <p>Private capex at 12-year highs. Order books +20.7% FY25. Budget ₹12.2T capex + NIP + Gati Shakti drive <strong>15%+ CAGR</strong> in defence, metro, power equipment. 3-5 year visibility assured.</p>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Sector 02 · 14% Portfolio Weight</div>
+      <h4>Automobiles &amp; Auto Ancillary</h4>
+      <p>PV wholesales +11% YoY; CV +20-30%. EU FTA cuts ancillary tariffs, driving 10-15% CAGR. EV premiumization adds 20-40% content value per vehicle. PLI + festive demand = multi-year runway.</p>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Sector 03 · 11.65% Portfolio Weight</div>
+      <h4>Specialty Chemicals</h4>
+      <p>EU FTA cuts tariffs up to 22%. $220B market eyeing $400-450B by 2030. China oversupply easing. Specialty/pharma chemicals: 12-15% growth. EBITDA 15-18% in multi-year upcycle.</p>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Sector 04 · 8.5% Portfolio Weight</div>
+      <h4>Water Utilities &amp; Infrastructure</h4>
+      <p>Jal Jeevan Mission + Smart Cities driving order books to 2x revenue. VA Tech Wabag: ROCE 20%, sales ₹3,294 Cr. Annuity-based O&M income + export growth. Rising water stress = structural demand.</p>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Sector 05 · 7.12% Portfolio Weight</div>
+      <h4>Banking &amp; Financial Services</h4>
+      <p>Bank GNPA at decade-low. Credit growth 14%. Rate cut cycle supports NIMs inflection. Nifty Bank ETF provides liquid exposure with low tracking cost as a tactical position.</p>
+    </div>
+    <div class="thesis-card">
+      <div class="num">Hedge · 5.25% Portfolio Weight</div>
+      <h4>Gold ETF — Geopolitical Hedge</h4>
+      <p>+8% CY26 YTD. Fed rate cuts + rupee depreciation amplify safe-haven appeal. Central bank accumulation (50T FY26) sustains momentum. 12-15% annualized return potential. Portfolio stabilizer.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ INVESTMENT THESIS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">🎯</div>
+    <div>
+      <h2>The Auxano Investment Thesis — Why Now Is the Right Entry</h2>
+      <p>A convergence of macro, micro, and valuation factors</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <h3>India's GDP Journey — The Compounding Economy</h3>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="gdpChart"></canvas>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">India rose from 10th to 4th largest economy — growing 109.5% in nominal GDP from 2014 to 2025. Fastest growing major economy in IMF projections through 2026.</p>
+    </div>
+    <div class="card">
+      <h3>Nifty Index Scenarios to 2047 (12% CAGR Base Case)</h3>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="niftyScenario"></canvas>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">₹1 Crore invested in 2025 → ₹12.10 Crore by 2047 at 12% CAGR. Auxano's AIF track record of 16–34% XIRR would amplify this significantly for patient investors.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>The 5 Pillars of the Auxano Investment Case</h3>
+    <div class="grid-3" style="margin-top:4px;gap:16px;">
+      <div class="highlight green" style="margin:0;">
+        <strong>1. Proven Alpha Generation</strong><br>
+        Every vintage since 2016 has generated positive alpha vs Nifty 50. Best: +19.60% (2019-21 SPV). Worst: +5.66% (AET-II). Consistency across market cycles — bull, bear, and sideways.
+      </div>
+      <div class="highlight" style="margin:0;">
+        <strong>2. India at an Inflection</strong><br>
+        World's 4th largest economy, 7.8% GDP growth, 2.75% inflation, rate cuts underway. Capex upcycle multi-year. India is not just growing — it is transforming. Early movers win disproportionately.
+      </div>
+      <div class="highlight orange" style="margin:0;">
+        <strong>3. Correction = Entry Opportunity</strong><br>
+        FII-led outflows (₹1.74 lakh Cr in Aug-Feb) have created mid/small cap dislocations. Auxano holds 21.6% cash — positioned to deploy at attractive valuations as sentiment turns.
+      </div>
+      <div class="highlight" style="margin:0;">
+        <strong>4. Disciplined VCP Framework</strong><br>
+        Vision→Courage→Patience. Stock selection from 7,500+ listed names to 20-25 high-conviction bets. Piotroski F-score screen + no pledged shares + low debt = quality filter.
+      </div>
+      <div class="highlight green" style="margin:0;">
+        <strong>5. Structural Sector Tailwinds</strong><br>
+        Defence capex doubling. EU FTA boosting exports. ₹12.2T infrastructure spending. PLI manufacturing surge. Water stress driving infra demand. All Auxano sectors are policy-backed structural winners.
+      </div>
+      <div class="highlight orange" style="margin:0;">
+        <strong>6. Geopolitical Hedge Built In</strong><br>
+        Gold ETF in portfolio acts as geopolitical insurance. China+1 manufacturing directly benefits portfolio companies. India-EU trade deal is a direct earnings catalyst for auto and chemical holdings.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ RISK FACTORS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">⚠️</div>
+    <div>
+      <h2>Risk Factors to Monitor</h2>
+      <p>Transparent risk disclosure for informed decision-making</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="card">
+      <h3>Key Risks</h3>
+      <div class="highlight red" style="margin-bottom:12px;">
+        <strong>Global Recession Risk:</strong> US tariff escalation or Fed policy error could trigger risk-off globally, deepening FII outflows. Small/mid caps would bear the brunt of liquidity stress.
+      </div>
+      <div class="highlight orange" style="margin-bottom:12px;">
+        <strong>Geopolitical Escalation:</strong> Middle East or India-Pakistan tensions could spike volatility. Gold hedge partially mitigates this but cannot eliminate equity drawdowns.
+      </div>
+      <div class="highlight orange" style="margin-bottom:12px;">
+        <strong>Concentration Risk:</strong> 20-25 stock portfolio means individual stock disappointment has material NAV impact. Managed via 10% single-stock and 25% single-sector caps.
+      </div>
+      <div class="highlight red">
+        <strong>Liquidity Risk (Small Caps):</strong> 78.3% small-cap allocation in Alpha Fund may face wider bid-ask spreads in distressed markets. 21.6% cash buffer partially offsets this.
+      </div>
+    </div>
+    <div class="card">
+      <h3>Auxano's Risk Mitigation Framework</h3>
+      <div style="margin-top:8px;">
+        <div class="risk-row">
+          <span class="risk-label">Stock Concentration</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:40%;background:var(--green);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">Low</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">Sector Concentration</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:50%;background:#f59e0b;"></div></div>
+          <span class="risk-pct" style="color:#b45309;">Med</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">Debt in Portfolio Cos.</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:25%;background:var(--green);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">Low</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">Cash Liquidity</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:75%;background:var(--green);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">High</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">Governance Screen</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:85%;background:var(--green);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">Strong</span>
+        </div>
+        <div class="risk-row">
+          <span class="risk-label">FII Dependency</span>
+          <div class="risk-bar-bg"><div class="risk-bar" style="width:30%;background:var(--green);"></div></div>
+          <span class="risk-pct" style="color:var(--green);">Low</span>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top:16px;margin-bottom:0;">
+        <strong>No derivatives. No speculation. No day trading.</strong> Exit discipline: only on thesis breach, not market noise. Performance assessed vs BSE 500 TRI.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ TERMS ═══ -->
+  <div class="section-header">
+    <div class="section-icon">📄</div>
+    <div>
+      <h2>Key Investment Terms</h2>
+      <p>Structure, fees & operational details</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:40px;">
+    <h3>Auxano Alpha Fund — PMS Structure</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr><th>Parameter</th><th>Details</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Portfolio Manager</td><td>Moat Financial Services Pvt Ltd (SEBI Regd. INP000004482)</td></tr>
+          <tr><td>Minimum Investment</td><td>₹50 Lakhs</td></tr>
+          <tr><td>Custodian & Demat Partner</td><td>Orbis Financial Corporation Limited</td></tr>
+          <tr><td>Distribution Partner</td><td>Bellwether Associates LLP, Golf Course Road, Gurugram</td></tr>
+          <tr><td>Benchmark</td><td>BSE 500 TRI</td></tr>
+          <tr><td>Fee Option A (Fixed)</td><td>2.50% p.a. management fee</td></tr>
+          <tr><td>Fee Option B (Performance + Hurdle)</td><td>1.5% p.a. + 20% on returns above 10% hurdle</td></tr>
+          <tr><td>Fee Option C (Performance, No Hurdle)</td><td>20% on all returns</td></tr>
+          <tr><td>Exit Load</td><td>NIL</td></tr>
+          <tr><td>Investment Horizon (Recommended)</td><td>5+ Years</td></tr>
+          <tr><td>Portfolio Stocks</td><td>20–25 high-conviction names</td></tr>
+          <tr><td>Single Stock Cap</td><td>10% of portfolio</td></tr>
+          <tr><td>Single Industry Cap</td><td>25% of portfolio</td></tr>
+          <tr><td>Cash Allocation Range</td><td>0% – 25% (tactical)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════ FOOTER ═══ -->
+<div class="footer">
+  <strong>DISCLAIMER — FOR QUALIFIED INVESTORS ONLY</strong><br>
+  This report is confidential and intended solely for informational purposes for prospective qualified investors. It does not constitute an offer, solicitation, or investment advice. Past performance is not indicative of future results. Returns mentioned are not verified by SEBI. Investors should consult their legal, tax, and financial advisors before investing. The Portfolio Manager is not liable for any loss arising from reliance on this document. Information sourced from fund documents, public data, and third-party research believed reliable as of March 2026.<br><br>
+  <strong>Auxano Capital LLP</strong> · <strong>Moat Financial Services Pvt Ltd</strong> · SEBI Regd. INP000004482 · Kochi, Kerala 682024<br>
+  Distribution: Bellwether Associates LLP, Golf Course Road, Gurugram 122011
+</div>
+
+<script>
+const navy='#1a2356', blue='#2d4aad', teal='#1a8fa0', orange='#e05a1b', green='#1aa065', red='#d9364f', gold='#c9a84c';
+
+// 1. FII DII FLOW CHART
+new Chart(document.getElementById('flowChart'), {
+  type: 'bar',
+  data: {
+    labels: ["Aug'25","Sep'25","Oct'25","Nov'25","Dec'25","Jan'26","Feb'26"],
+    datasets: [
+      {
+        label: 'FII (₹ \'000 Cr)',
+        data: [-46.9, -35.3, -2.3, -17.5, -34.3, -41.4, -6.6],
+        backgroundColor: 'rgba(217,54,79,0.75)',
+        borderRadius: 5
+      },
+      {
+        label: 'DII (₹ \'000 Cr)',
+        data: [94.8, 65.3, 52.8, 77.1, 79.6, 69.2, 38.4],
+        backgroundColor: 'rgba(26,160,101,0.75)',
+        borderRadius: 5
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+      y: {
+        ticks: { font: { size: 11 }, callback: v => v + 'k' },
+        grid: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// 2. TVPI Chart
+new Chart(document.getElementById('tvpiChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SPV 2016-18','SPV 2019-21','AET-I','AET-II','ADF'],
+    datasets: [{
+      label: 'TVPI (×)',
+      data: [5.44, 5.26, 4.38, 1.56, 1.36],
+      backgroundColor: [blue, teal, green, orange, gold],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => c.raw + '×' } }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => v + '×', font: { size: 11 } },
+        grid: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// 3. Blended XIRR vs BSE 500
+new Chart(document.getElementById('alphaBseChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SPV 2016-18','SPV 2019-21','AET-I','AET-II','ADF'],
+    datasets: [
+      {
+        label: 'Auxano Blended XIRR (%)',
+        data: [18.95, 32.24, 33.92, 16.44, 20.17],
+        backgroundColor: blue, borderRadius: 5
+      },
+      {
+        label: 'BSE 500 TRI Return (%)',
+        data: [13.17, 14.23, 17.64, 12.47, 15.14],
+        backgroundColor: 'rgba(26,35,86,0.18)', borderRadius: 5
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        ticks: { callback: v => v + '%', font: { size: 11 } },
+        grid: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// 4. ALPHA vs NIFTY 50
+new Chart(document.getElementById('alphaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['SPV 2016-18','SPV 2019-21','AET-I','AET-II','ADF'],
+    datasets: [
+      {
+        label: 'Auxano XIRR (%)',
+        data: [18.95, 32.24, 33.92, 16.44, 20.17],
+        backgroundColor: blue, borderRadius: 5, order: 2
+      },
+      {
+        label: 'Nifty 50 Return (%)',
+        data: [12.30, 12.64, 15.60, 10.78, 12.95],
+        backgroundColor: 'rgba(201,168,76,0.5)', borderRadius: 5, order: 2
+      },
+      {
+        label: 'Alpha Generated (%)',
+        data: [6.65, 19.60, 18.32, 5.66, 7.22],
+        type: 'line',
+        borderColor: green,
+        backgroundColor: 'rgba(26,160,101,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointBackgroundColor: green,
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        ticks: { callback: v => v + '%', font: { size: 11 } },
+        grid: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// 5. PMS PERFORMANCE
+new Chart(document.getElementById('pmsPerf'), {
+  type: 'bar',
+  data: {
+    labels: ['MTD (Mar\'26)','1 Month','3 Month','Since Inception'],
+    datasets: [
+      {
+        label: 'Auxano Alpha Fund (%)',
+        data: [-5.25, -6.31, -10.04, -13.88],
+        backgroundColor: [green, green, orange, red],
+        borderRadius: 5
+      },
+      {
+        label: 'BSE 500 TRI (%)',
+        data: [-7.72, -8.22, -9.87, -8.25],
+        backgroundColor: 'rgba(26,35,86,0.2)',
+        borderRadius: 5
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        ticks: { callback: v => v + '%', font: { size: 11 } },
+        grid: { color: '#e5e7eb' }
+      }
+    }
+  }
+});
+
+// 6. Asset pie
+new Chart(document.getElementById('assetPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Stocks','ETF','Cash'],
+    datasets: [{ data: [73.11, 5.25, 21.64], backgroundColor: [blue, teal, gold], borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8 } } }
+  }
+});
+
+// 7. Market cap pie
+new Chart(document.getElementById('mcapPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Small Cap','Large Cap','Commodity ETF'],
+    datasets: [{ data: [78.34, 15.00, 6.66], backgroundColor: [teal, navy, gold], borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8 } } }
+  }
+});
+
+// 8. Sector bar
+new Chart(document.getElementById('sectorBar'), {
+  type: 'bar',
+  data: {
+    labels: ['Machinery & Equip.','Automobiles','Chemicals','Water Utilities','Banking'],
+    datasets: [{
+      label: 'Weight (%)',
+      data: [24.02, 13.94, 11.65, 8.50, 7.12],
+      backgroundColor: [blue, teal, orange, green, gold],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#e5e7eb' } },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// 9. AOF Chart
+new Chart(document.getElementById('aofChart'), {
+  type: 'bar',
+  data: {
+    labels: ['MTD (Sep\'25)','1 Month','Since Inception'],
+    datasets: [
+      {
+        label: 'AOF NDPMS (%)',
+        data: [7.62, 6.58, 4.88],
+        backgroundColor: green, borderRadius: 6
+      },
+      {
+        label: 'BSE 500 TRI (%)',
+        data: [4.35, 3.47, 2.93],
+        backgroundColor: 'rgba(26,35,86,0.2)', borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: '#e5e7eb' } }
+    }
+  }
+});
+
+// 10. Sector Outlook
+new Chart(document.getElementById('sectorOutlook'), {
+  type: 'bar',
+  data: {
+    labels: ['Machinery/Infra','Auto Ancillary','Specialty Chem','Water Utilities','Defence'],
+    datasets: [
+      {
+        label: 'Portfolio Weight (%)',
+        data: [24.02, 13.94, 11.65, 8.50, 4.91],
+        backgroundColor: blue, borderRadius: 5, yAxisID: 'y'
+      },
+      {
+        label: 'Sector CAGR Outlook (%)',
+        data: [15, 12, 13, 15, 20],
+        type: 'line',
+        borderColor: orange,
+        backgroundColor: 'rgba(224,90,27,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointBackgroundColor: orange,
+        yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#e5e7eb' }, title: { display: true, text: 'Portfolio Weight %', font: { size: 10 } } },
+      y2: { position: 'right', ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { display: false }, title: { display: true, text: 'CAGR Outlook %', font: { size: 10 } } }
+    }
+  }
+});
+
+// 11. GDP Chart
+new Chart(document.getElementById('gdpChart'), {
+  type: 'bar',
+  data: {
+    labels: ['1947','2007','2014','2021','2025','2030E'],
+    datasets: [{
+      label: 'India GDP ($ Trillion)',
+      data: [0.2, 1, 2, 3, 5, 7],
+      backgroundColor: [navy, navy, blue, teal, green, 'rgba(26,160,101,0.5)'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { ticks: { callback: v => '$' + v + 'T', font: { size: 10 } }, grid: { color: '#e5e7eb' } }
+    }
+  }
+});
+
+// 12. Nifty Scenario
+new Chart(document.getElementById('niftyScenario'), {
+  type: 'line',
+  data: {
+    labels: [2025,2027,2029,2031,2033,2035,2037,2039,2041,2043,2045,2047],
+    datasets: [
+      {
+        label: '12% CAGR (Base)',
+        data: [24000,30157,37913,47646,59869,75221,94502,118744,149221,187520,235573,295895],
+        borderColor: blue, backgroundColor: 'rgba(45,74,173,0.08)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 0
+      },
+      {
+        label: '10% CAGR',
+        data: [24000,29040,35138,42517,51446,62250,75322,91140,110279,133438,161460,195367],
+        borderColor: teal, borderDash: [5,5], tension: 0.4, borderWidth: 1.5, fill: false, pointRadius: 0
+      },
+      {
+        label: '9% CAGR',
+        data: [24000,28512,33873,40250,47817,56821,67542,80271,95402,113378,134756,160213],
+        borderColor: orange, borderDash: [3,3], tension: 0.4, borderWidth: 1.5, fill: false, pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { ticks: { callback: v => (v/1000).toFixed(0) + 'k', font: { size: 10 } }, grid: { color: '#e5e7eb' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
